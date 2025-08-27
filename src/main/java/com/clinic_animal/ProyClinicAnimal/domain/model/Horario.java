@@ -17,6 +17,7 @@ import java.time.LocalTime;
 public class Horario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_horario")
     private Long id;
     private LocalDate fecha;
     @Column(name="hora_entrada")

@@ -1,4 +1,16 @@
-package com.clinic_animal.ProyClinicAnimal.web.dto.request;
+    package com.clinic_animal.ProyClinicAnimal.web.dto.request;
 
-public class CitaServicioRequestDto {
-}
+    import lombok.*;
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public class CitaServicioRequestDto {
+        private Integer cantidad;
+        private double precioBase;
+        private  double subTotal;
+        private Long idCita;
+        private Long idServicio;
+    }

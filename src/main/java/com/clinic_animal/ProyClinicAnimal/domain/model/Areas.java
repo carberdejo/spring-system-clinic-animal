@@ -14,7 +14,7 @@ import java.util.List;
 public class Areas {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="CodigoArea")
+    @Column(name="Codigo_Area")
     private Long codigoArea;
     @Column(name="NombreArea")
     private String nomArea;

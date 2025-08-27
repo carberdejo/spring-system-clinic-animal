@@ -38,6 +38,6 @@ public class Cita {
     @JoinColumn(name = "id_veterinario",referencedColumnName = "id_personal")
     private Personal veterinario;
 
-    @OneToOne(mappedBy = "cita", cascade = CascadeType.ALL,fetch = FetchType.LAZY,optional = true)
+    @OneToOne(mappedBy = "cita", cascade = CascadeType.ALL, optional = true)
     private Receta receta;
 }

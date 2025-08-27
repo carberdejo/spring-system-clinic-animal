@@ -13,13 +13,15 @@ import lombok.*;
 public class CitaServicio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_citaServ")
+    @Column(name = "id_cita_Serv")
     private Long id;
     private Integer cantidad;
+    @Column(name = "precio_Base")
     private double precioBase;
+    @Column(name = "sub_Total")
     private  double subTotal;
     @ManyToOne
-    @JoinColumn(name="Codigo_Area")
+    @JoinColumn(name="id_cita")
     private Cita cita;
     @ManyToOne
     @JoinColumn(name="cod_servicio")
