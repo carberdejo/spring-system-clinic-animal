@@ -4,4 +4,6 @@ import com.clinic_animal.ProyClinicAnimal.domain.model.Areas;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AreaRepositry extends JpaRepository<Areas,Long> {
+    boolean existsByNomArea(String Areas);
+    Areas findByNomArea(String nomArea);
 }

@@ -17,7 +17,7 @@ public class Roles {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="Codigo_Rol")
     private Long rolCodigo;
-    @Column(name = "Nombre Rol")
+    @Column(name = "Nombre_Rol")
     private String rolNombre;
     @Column(name = "Descripcion")
     private String descripcion;
