@@ -1,14 +1,13 @@
 package com.clinic_animal.ProyClinicAnimal.web.dto.request;
 
+import com.clinic_animal.ProyClinicAnimal.domain.model.estados.EstadoCita;
 import lombok.*;
 
-import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CitaRequestDto {
-    private LocalDateTime fechaHora;
-    private Long mascotaId;
+public class CitaUpdateDTO {
+    private EstadoCita estado;
 }

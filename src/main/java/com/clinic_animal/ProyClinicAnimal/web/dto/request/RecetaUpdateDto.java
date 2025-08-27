@@ -2,13 +2,12 @@ package com.clinic_animal.ProyClinicAnimal.web.dto.request;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CitaRequestDto {
-    private LocalDateTime fechaHora;
-    private Long mascotaId;
+public class RecetaUpdateDto {
+    private String indicaciones;
+    private String medicamentos;
 }

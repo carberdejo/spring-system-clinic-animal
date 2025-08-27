@@ -3,6 +3,8 @@ package com.clinic_animal.ProyClinicAnimal.domain.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "Receta")
 @Getter
@@ -15,6 +17,10 @@ public class Receta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Codigo_Receta")
     private Long id;
+
+    @Column(name = "fecha_emision")
+    private LocalDateTime fechaEmision;
+
 
     @Column(name = "cantidad")
     private Integer cantidad;
