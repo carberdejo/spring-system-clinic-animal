@@ -8,14 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PersonalRequestDto {
-    private String nombrePersonal;
-    private String apellidoPersonal;
-    private int edad;
-    private String dni;
-    private String email;
-    private String telefono;
+public class PersonalUpdateDto {
+
     private String nombreRol;
     private String nomArea;
-    private EstadoPersonal estadoPersonal;
+    private String email;
+    private String telefono;
+
 }
