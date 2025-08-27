@@ -5,6 +5,7 @@ spring:
     url: jdbc:mysql://localhost:3306/ClinicAnimal
     username: root
     password:
+    password: MyMagolorDS
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
