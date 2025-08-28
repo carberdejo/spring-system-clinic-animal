@@ -34,12 +34,22 @@ public class PersonalServiceImpl implements PersonalService {
 
         if (personalRep.existsByDni(personalRequestDto.getDni()))
             throw new ErrorNegocio("Ese trabajador ya existe");
+        if (personalRep.existsByEmail(personalRequestDto.getEmail()))
+            throw new ErrorNegocio("Ese email ya esta registrado");
+        if(personalRequestDto.getContraseña().length()<7){
+            throw new ErrorNegocio("Contraseña muy pequeña");
+        }
+        if(!personalRequestDto.getContraseña().matches(".*\\d.*")){
+            throw new ErrorNegocio("Tienes que añadir al menos un numero a tu contraseña por seguridad");
+        }
         if (!areasRep.existsByCodigoArea(personalRequestDto.getCodigoArea())) {
             throw new ErrorNegocio("Esta Área no existe");
         }
         if (!rolesRep.existsByRolCodigo(personalRequestDto.getRolCodigo())) {
             throw new ErrorNegocio("Este rol no existe");
         }
+        if(!personalRequestDto.getEmail().endsWith("@gmail.com"))
+            throw new ErrorNegocio("Aprende a escribir un correo");
         if(personalRequestDto.getEdad() <17){
             throw new ErrorNegocio("Eres muy pequeño para trabajar :(");
         }
@@ -110,6 +120,11 @@ public class PersonalServiceImpl implements PersonalService {
             throw new ErrorNegocio("Todo número de teléfono debe tener 9 dígitos");
         }
 
+        if (personalRep.existsByEmail(personalUpdateDto.getEmail()))
+            throw new ErrorNegocio("Ese email ya esta registrado");
+        if (!areasRep.existsByCodigoArea(personalUpdateDto.getCodigoArea())) {
+            throw new ErrorNegocio("Esta Área no existe");
+        }
         // Buscar Área por nombre
         Areas area = areasRep.findByCodigoArea(personalUpdateDto.getCodigoArea());
         if (area == null) {

@@ -31,6 +31,8 @@ public class Personal {
     private String email;
     @Column(name = "telefono")
     private String telefono;
+    @Column(name="contraseña")
+    private String contraseña;
     @Column(name = "fecha_registro")
     private LocalDate fechaRegistro;
     @Column(name="Estado")

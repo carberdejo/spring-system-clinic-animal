@@ -14,6 +14,7 @@ public class PersonalResponseDto {
     private Long id;
     private String nombrePersonal;
     private String apellidoPersonal;
+    private String contraseña;
     private int edad;
     private String dni;
     private String email;
