@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RecetaRepository extends JpaRepository<Receta,Long> {
-    List<Receta> findByMedicamentosContainingIgnoreCase(String nombre);
-//    List<Receta> findByFechaEmisionBetween(LocalDateTime inicio, LocalDateTime fin);
+    List<Receta> findAllByCantidadGreaterThanEqual(int cantidad);
+
 }

@@ -9,6 +9,6 @@ import java.util.List;
 public interface PersonalRepository extends JpaRepository<Personal,Long> {
     boolean existsByDni(String dni);
     List<Personal> findAllByEstadoPersonalNot(EstadoPersonal estado);
-    List<Personal> findAllByRoles_RolNombreAndEstadoPersonalNot(String rolNombre, EstadoPersonal estadoPersonal);
-    List<Personal> findAllByAreas_NomAreaAndEstadoPersonalNot(String nomArea, EstadoPersonal estadoPersonal);
+    List<Personal> findAllByRoles_RolCodigoAndEstadoPersonalNot(Long rolCodigo, EstadoPersonal estadoPersonal);
+    List<Personal> findAllByAreas_CodigoAreaAndEstadoPersonalNot(Long codigoArea, EstadoPersonal estadoPersonal);
 }

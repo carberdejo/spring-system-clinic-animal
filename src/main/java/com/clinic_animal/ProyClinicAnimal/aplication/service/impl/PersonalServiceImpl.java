@@ -34,10 +34,10 @@ public class PersonalServiceImpl implements PersonalService {
 
         if (personalRep.existsByDni(personalRequestDto.getDni()))
             throw new ErrorNegocio("Ese trabajador ya existe");
-        if (!areasRep.existsByNomArea(personalRequestDto.getNomArea())) {
+        if (!areasRep.existsByCodigoArea(personalRequestDto.getCodigoArea())) {
             throw new ErrorNegocio("Esta Área no existe");
         }
-        if (!rolesRep.existsByRolNombre(personalRequestDto.getNombreRol())) {
+        if (!rolesRep.existsByRolCodigo(personalRequestDto.getRolCodigo())) {
             throw new ErrorNegocio("Este rol no existe");
         }
         if(personalRequestDto.getEdad() <17){
@@ -49,8 +49,8 @@ public class PersonalServiceImpl implements PersonalService {
         if(personalRequestDto.getTelefono().length() != 9){
             throw new ErrorNegocio("Todo numero de telefono debe tener 9 digitos");
         }
-        Roles roles = rolesRep.findByRolNombre(personalRequestDto.getNombreRol());
-        Areas area = areasRep.findByNomArea(personalRequestDto.getNomArea());
+        Roles roles = rolesRep.findByRolCodigo(personalRequestDto.getRolCodigo());
+        Areas area = areasRep.findByCodigoArea(personalRequestDto.getCodigoArea());
         Personal personal = personalMap.toEntity(personalRequestDto,roles,area);
         personal.setFechaRegistro(LocalDate.now());
         personal.setEstadoPersonal(EstadoPersonal.DISPONIBLE);
@@ -81,8 +81,8 @@ public class PersonalServiceImpl implements PersonalService {
     }
 
     @Override
-    public List<PersonalResponseDto> obtenerporRolNombre(String rolNombre) {
-        List<Personal> personales = personalRep.findAllByRoles_RolNombreAndEstadoPersonalNot(rolNombre, EstadoPersonal.NO_DISPONIBLE);
+    public List<PersonalResponseDto> obtenerporRolCodigo(Long rolCodigo) {
+        List<Personal> personales = personalRep.findAllByRoles_RolCodigoAndEstadoPersonalNot(rolCodigo, EstadoPersonal.NO_DISPONIBLE);
         return personales.stream()
                 .map(personalMap::toDto)
                 .toList()
@@ -91,8 +91,8 @@ public class PersonalServiceImpl implements PersonalService {
     }
 
     @Override
-    public List<PersonalResponseDto> obtenerporNomArea(String nomArea) {
-        List<Personal> personales = personalRep.findAllByAreas_NomAreaAndEstadoPersonalNot(nomArea, EstadoPersonal.NO_DISPONIBLE);
+    public List<PersonalResponseDto> obtenerporCodigoArea(Long codigoArea) {
+        List<Personal> personales = personalRep.findAllByAreas_CodigoAreaAndEstadoPersonalNot(codigoArea, EstadoPersonal.NO_DISPONIBLE);
         return personales.stream()
                 .map(personalMap::toDto)
                 .toList()
@@ -111,14 +111,14 @@ public class PersonalServiceImpl implements PersonalService {
         }
 
         // Buscar Área por nombre
-        Areas area = areasRep.findByNomArea(personalUpdateDto.getNomArea());
+        Areas area = areasRep.findByCodigoArea(personalUpdateDto.getCodigoArea());
         if (area == null) {
-            throw new ErrorNegocio("El área '" + personalUpdateDto.getNomArea() + "' no existe");
+            throw new ErrorNegocio("El área de codigo" + personalUpdateDto.getCodigoArea() + "' no existe");
         }
         // Buscar Rol por nombre
-        Roles rol = rolesRep.findByRolNombre(personalUpdateDto.getNombreRol());
+        Roles rol = rolesRep.findByRolCodigo(personalUpdateDto.getRolCodigo());
         if (rol == null) {
-            throw new ErrorNegocio("El área '" + personalUpdateDto.getNomArea() + "' no existe");
+            throw new ErrorNegocio("El rol de codigo" + personalUpdateDto.getCodigoArea() + "' no existe");
         }
         // Actualizar campos
         personal.setAreas(area);

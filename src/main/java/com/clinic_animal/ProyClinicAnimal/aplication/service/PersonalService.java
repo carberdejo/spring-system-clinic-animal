@@ -13,8 +13,8 @@ public interface PersonalService {
     PersonalResponseDto crear(PersonalRequestDto personalRequestDto);
     List<PersonalResponseDto> listar();
     PersonalResponseDto obtenerporId(Long id);
-    List<PersonalResponseDto> obtenerporRolNombre(String rolNombre);
-    List<PersonalResponseDto> obtenerporNomArea(String nomArea);
+    List<PersonalResponseDto> obtenerporRolCodigo(Long rolCodigo);
+    List<PersonalResponseDto> obtenerporCodigoArea(Long codigoArea);
     PersonalResponseDto actualizar(PersonalUpdateDto personalUpdateDto, Long id);
     PersonalResponseDto actualizarEstado(PersonalUpdateEstadoDto personalUpdateEstadoDto, Long id);
 }

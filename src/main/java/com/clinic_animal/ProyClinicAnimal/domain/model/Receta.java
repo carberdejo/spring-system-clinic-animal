@@ -18,10 +18,6 @@ public class Receta {
     @Column(name = "Codigo_Receta")
     private Long id;
 
-//    @Column(name = "fecha_emision")
-//    private LocalDateTime fechaEmision;
-
-
     @Column(name = "cantidad")
     private Integer cantidad;
 
