@@ -11,6 +11,7 @@ import lombok.*;
 public class PersonalRequestDto {
     private String nombrePersonal;
     private String apellidoPersonal;
+    private String contraseña;
     private int edad;
     private String dni;
     private String email;
