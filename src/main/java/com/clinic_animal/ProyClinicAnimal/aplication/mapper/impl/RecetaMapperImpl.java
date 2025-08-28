@@ -15,6 +15,7 @@ public class RecetaMapperImpl implements RecetaMaper {
         return Receta.builder()
 //                .fechaEmision(dto.getFechaEmision())
                 .indicaciones(dto.getIndicaciones())
+                .cantidad(dto.getCantidad())
                 .medicamentos(dto.getMedicamentos())
                 .cita(cita)
                 .build();
@@ -26,6 +27,7 @@ public class RecetaMapperImpl implements RecetaMaper {
                 .id(entity.getId())
 //                .fechaEmision(entity.getFechaEmision())
                 .indicaciones(entity.getIndicaciones())
+                .cantidad(entity.getCantidad())
                 .medicamentos(entity.getMedicamentos())
                 .citaId(entity.getCita().getId())
                 .nombrePaciente(entity.getCita().getMascota().getNombre())
@@ -34,7 +36,15 @@ public class RecetaMapperImpl implements RecetaMaper {
 
     @Override
     public void updateEntity(Receta entity, RecetaUpdateDto dto) {
-        entity.setIndicaciones(dto.getIndicaciones());
-        entity.setMedicamentos(dto.getMedicamentos());
+        if (dto.getIndicaciones() != null) {
+            entity.setIndicaciones(dto.getIndicaciones());
+        }
+        if (dto.getCantidad() != null) {
+            entity.setCantidad(dto.getCantidad());
+        }
+        if (dto.getMedicamentos() != null) {
+            entity.setMedicamentos(dto.getMedicamentos());
+        }
+        // 👇 JAMÁS tocar la cita aquí
     }
 }

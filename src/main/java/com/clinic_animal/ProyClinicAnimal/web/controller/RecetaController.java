@@ -41,7 +41,7 @@ public class RecetaController {
     }
 
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<RecetaResponseDto> actualizar(@PathVariable Long id,
                                                         @RequestBody RecetaUpdateDto updateDTO) {
         return ResponseEntity.ok(recetaService.actualizar(id, updateDTO));
@@ -53,19 +53,9 @@ public class RecetaController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/buscar")
-    public ResponseEntity<List<RecetaResponseDto>> buscarPorNombre(@RequestParam String nombre) {
-        return ResponseEntity.ok(recetaService.buscarPorNombre(nombre));
+    @GetMapping("/cant/{cantidad}")
+    public ResponseEntity<List<RecetaResponseDto>> buscarPorCantidad(@PathVariable Integer cantidad) {
+        return ResponseEntity.ok(recetaService.buscarPorCantidad(cantidad));
     }
-
-
-//    @GetMapping("/fecha")
-//    public ResponseEntity<List<RecetaResponseDto>> buscarPorFecha(
-//            @RequestParam String inicio,
-//            @RequestParam String fin) {
-//        LocalDateTime fechaInicio = LocalDateTime.parse(inicio);
-//        LocalDateTime fechaFin = LocalDateTime.parse(fin);
-//        return ResponseEntity.ok(recetaService.buscarPorFecha(fechaInicio, fechaFin));
-//    }
 
 }

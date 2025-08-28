@@ -15,7 +15,7 @@ public class PersonalRequestDto {
     private String dni;
     private String email;
     private String telefono;
-    private String nombreRol;
-    private String nomArea;
+    private Long rolCodigo;
+    private Long codigoArea;
     private EstadoPersonal estadoPersonal;
 }

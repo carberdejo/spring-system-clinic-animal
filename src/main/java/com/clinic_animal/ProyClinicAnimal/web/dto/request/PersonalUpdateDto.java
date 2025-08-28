@@ -10,8 +10,8 @@ import lombok.*;
 @Builder
 public class PersonalUpdateDto {
 
-    private String nombreRol;
-    private String nomArea;
+    private Long rolCodigo;
+    private Long codigoArea;
     private String email;
     private String telefono;
 

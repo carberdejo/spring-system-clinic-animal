@@ -2,8 +2,6 @@ package com.clinic_animal.ProyClinicAnimal.web.controller;
 
 
 import com.clinic_animal.ProyClinicAnimal.aplication.service.PersonalService;
-import com.clinic_animal.ProyClinicAnimal.domain.model.Areas;
-import com.clinic_animal.ProyClinicAnimal.domain.model.Roles;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalRequestDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateEstadoDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.PersonalResponseDto;
@@ -36,13 +34,13 @@ public class PersonalController {
     public ResponseEntity<PersonalResponseDto> actualizarAreas(@PathVariable("id") Long id,@RequestBody PersonalUpdateDto requestDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(personalService.actualizar(requestDTO, id));
     }
-    @GetMapping("/RolABuscar/{rolNombre}")
-    public ResponseEntity<List<PersonalResponseDto>> listarRoles(@PathVariable String rolNombre){
-        return ResponseEntity.ok(personalService.obtenerporRolNombre(rolNombre));
+    @GetMapping("/Rol/{id}")
+    public ResponseEntity<List<PersonalResponseDto>> listarRoles(@PathVariable Long id){
+        return ResponseEntity.ok(personalService.obtenerporRolCodigo(id));
     }
-    @GetMapping("/AreaABuscar/{nomArea}")
-    public ResponseEntity<List<PersonalResponseDto>> listarArea(@PathVariable String nomArea){
-        return ResponseEntity.ok(personalService.obtenerporNomArea(nomArea));
+    @GetMapping("/Area/{id}")
+    public ResponseEntity<List<PersonalResponseDto>> listarArea(@PathVariable Long id){
+        return ResponseEntity.ok(personalService.obtenerporCodigoArea(id));
     }
     @PatchMapping("/CambiarEstado/{id}")
     public ResponseEntity<PersonalResponseDto> actualizarEstadoAreas(@PathVariable("id") Long id,@RequestBody PersonalUpdateEstadoDto updateEstadoDto) {

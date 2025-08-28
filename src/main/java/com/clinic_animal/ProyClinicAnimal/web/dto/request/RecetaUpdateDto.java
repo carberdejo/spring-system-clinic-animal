@@ -9,5 +9,6 @@ import lombok.*;
 @Builder
 public class RecetaUpdateDto {
     private String indicaciones;
+    private Integer cantidad;
     private String medicamentos;
 }

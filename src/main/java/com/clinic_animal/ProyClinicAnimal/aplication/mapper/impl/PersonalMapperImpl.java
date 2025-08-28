@@ -42,7 +42,9 @@ public class PersonalMapperImpl implements PersonalMapper {
                 .email(entity.getEmail())
                 .telefono(entity.getTelefono())
                 .estadoPersonal(entity.getEstadoPersonal())
+                .codigoArea(entity.getAreas().getCodigoArea())
                 .nomArea(entity.getAreas().getNomArea())
+                .rolCodigo(entity.getRoles().getRolCodigo())
                 .nombreRol(entity.getRoles().getRolNombre())
                 .fechaRegistro(entity.getFechaRegistro())
                 .build();
@@ -50,10 +52,10 @@ public class PersonalMapperImpl implements PersonalMapper {
 
     @Override
     public void PersonalUpdateDto(PersonalUpdateDto dto, Personal entity, Roles roles, Areas areas) {
-        if (dto.getNombreRol() != null) {
+        if (dto.getRolCodigo() != null) {
             entity.setRoles(roles);
         }
-        if (dto.getNomArea() != null) {
+        if (dto.getCodigoArea() != null) {
             entity.setAreas(areas);
         }
         if (dto.getEmail() != null) {

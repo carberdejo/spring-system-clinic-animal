@@ -18,7 +18,9 @@ public class PersonalResponseDto {
     private String dni;
     private String email;
     private String telefono;
+    private Long rolCodigo;
     private String nombreRol;
+    private Long codigoArea;
     private String nomArea;
     private LocalDate fechaRegistro;
     private EstadoPersonal estadoPersonal;

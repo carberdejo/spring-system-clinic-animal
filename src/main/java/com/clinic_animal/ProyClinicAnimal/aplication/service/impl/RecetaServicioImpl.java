@@ -4,6 +4,7 @@ import com.clinic_animal.ProyClinicAnimal.aplication.exception.ErrorNegocio;
 import com.clinic_animal.ProyClinicAnimal.aplication.mapper.RecetaMaper;
 import com.clinic_animal.ProyClinicAnimal.aplication.service.RecetaService;
 import com.clinic_animal.ProyClinicAnimal.domain.model.Cita;
+import com.clinic_animal.ProyClinicAnimal.domain.model.Personal;
 import com.clinic_animal.ProyClinicAnimal.domain.model.Receta;
 import com.clinic_animal.ProyClinicAnimal.domain.repository.CitaRepository;
 import com.clinic_animal.ProyClinicAnimal.domain.repository.RecetaRepository;
@@ -30,11 +31,15 @@ public class RecetaServicioImpl implements RecetaService {
     @Override
     public RecetaResponseDto crear(RecetaRequestDto recetaRequestDTO) {
         Cita cita = citaRepository.findById(recetaRequestDTO.getCitaId())
-                .orElseThrow(() -> new RuntimeException("Cita no encontrada con id: " + recetaRequestDTO.getCitaId()));
+                .orElseThrow(() -> new ErrorNegocio("Cita no encontrada con id: " + recetaRequestDTO.getCitaId()));
+
+        if (cita.getReceta() != null) {
+            throw new ErrorNegocio("La cita con id " + cita.getId() + " ya tiene una receta registrada.");
+        }
 
         Receta receta = recetaMaper.toEntity(recetaRequestDTO,cita);
 
-        return mapToResponse(recetaRepository.save(receta));
+        return recetaMaper.toDto(recetaRepository.save(receta));
 
     }
 
@@ -53,34 +58,43 @@ public class RecetaServicioImpl implements RecetaService {
     }
 
     @Override
-    public List<RecetaResponseDto> buscarPorNombre(String nombre) {
-        return recetaRepository.findByMedicamentosContainingIgnoreCase(nombre).stream()
-                .map(recetaMaper::toDto).toList();
+    public List<RecetaResponseDto> buscarPorCantidad(Integer cantidad) {
+        List<Receta> recetas = recetaRepository.findAllByCantidadGreaterThanEqual(cantidad);
+        return recetas.stream()
+                .map(recetaMaper::toDto)
+                .toList()
+                ;
+
     }
 
-//    @Override
-//    public List<RecetaResponseDto> buscarPorFecha(LocalDateTime inicio, LocalDateTime fin) {
-//
-//        return recetaRepository.findByFechaEmisionBetween(inicio, fin).stream()
-//                .map(this::mapToResponse)
-//                .collect(Collectors.toList());
-//
-//    }
 
     @Override
     public RecetaResponseDto actualizar(Long id, RecetaUpdateDto recetaUpdateDTO) {
         Receta receta = recetaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Receta no encontrada con id: " + id));
+                .orElseThrow(() -> new ErrorNegocio("Receta no encontrada con id: " + id));
 
+        // ✅ Guardamos referencia de la cita original (para no romper la relación única)
+        Cita citaOriginal = receta.getCita();
+
+        // ✅ Solo actualizamos campos simples
         if (recetaUpdateDTO.getIndicaciones() != null) {
             receta.setIndicaciones(recetaUpdateDTO.getIndicaciones());
+        }
+        if (recetaUpdateDTO.getCantidad() != null) {
+            receta.setCantidad(recetaUpdateDTO.getCantidad());
         }
         if (recetaUpdateDTO.getMedicamentos() != null) {
             receta.setMedicamentos(recetaUpdateDTO.getMedicamentos());
         }
 
-        return mapToResponse(recetaRepository.save(receta));
+        // 🔒 Volvemos a poner explícitamente la cita original (por si acaso se pierde en el mapeo)
+        receta.setCita(citaOriginal);
+
+        Receta recetaUpdate = recetaRepository.save(receta);
+        return recetaMaper.toDto(recetaUpdate);
     }
+
+
 
     @Override
     public void eliminar(Long id) {
@@ -92,20 +106,5 @@ public class RecetaServicioImpl implements RecetaService {
     }
 
 
-    private RecetaResponseDto mapToResponse(Receta receta) {
-        Long citaId = (receta.getCita() != null) ? receta.getCita().getId() : null;
-        String nombrePaciente = null;
-        if (receta.getCita() != null && receta.getCita().getMascota() != null) {
-            nombrePaciente = receta.getCita().getMascota().getNombre();
-        }
 
-        return RecetaResponseDto.builder()
-                .id(receta.getId())
-//                .fechaEmision(receta.getFechaEmision())
-                .indicaciones(receta.getIndicaciones())
-                .medicamentos(receta.getMedicamentos())
-                .citaId(citaId)
-                .nombrePaciente(nombrePaciente)
-                .build();
-    }
 }
