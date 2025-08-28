@@ -18,8 +18,8 @@ public class Receta {
     @Column(name = "Codigo_Receta")
     private Long id;
 
-    @Column(name = "fecha_emision")
-    private LocalDateTime fechaEmision;
+//    @Column(name = "fecha_emision")
+//    private LocalDateTime fechaEmision;
 
 
     @Column(name = "cantidad")
@@ -32,7 +32,7 @@ public class Receta {
     private String medicamentos;
 
     @OneToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "cita_id", unique = true,nullable = false)
+    @JoinColumn(name = "id_cita", unique = true,nullable = false)
     private Cita cita;
 
 }

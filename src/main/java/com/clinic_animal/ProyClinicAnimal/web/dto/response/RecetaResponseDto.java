@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 public class RecetaResponseDto {
     private Long id;
-    private LocalDateTime fechaEmision;
+//    private LocalDateTime fechaEmision;
     private String indicaciones;
     private String medicamentos;
     private Long citaId;

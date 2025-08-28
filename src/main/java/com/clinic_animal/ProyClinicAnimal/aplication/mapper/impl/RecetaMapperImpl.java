@@ -13,7 +13,7 @@ public class RecetaMapperImpl implements RecetaMaper {
     @Override
     public Receta toEntity(RecetaRequestDto dto, Cita cita) {
         return Receta.builder()
-                .fechaEmision(dto.getFechaEmision())
+//                .fechaEmision(dto.getFechaEmision())
                 .indicaciones(dto.getIndicaciones())
                 .medicamentos(dto.getMedicamentos())
                 .cita(cita)
@@ -24,7 +24,7 @@ public class RecetaMapperImpl implements RecetaMaper {
     public RecetaResponseDto toDto(Receta entity) {
         return RecetaResponseDto.builder()
                 .id(entity.getId())
-                .fechaEmision(entity.getFechaEmision())
+//                .fechaEmision(entity.getFechaEmision())
                 .indicaciones(entity.getIndicaciones())
                 .medicamentos(entity.getMedicamentos())
                 .citaId(entity.getCita().getId())

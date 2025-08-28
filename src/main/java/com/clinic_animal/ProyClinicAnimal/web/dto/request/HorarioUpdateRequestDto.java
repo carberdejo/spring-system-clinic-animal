@@ -1,19 +1,14 @@
 package com.clinic_animal.ProyClinicAnimal.web.dto.request;
 
-import com.clinic_animal.ProyClinicAnimal.domain.model.estados.EstadoHorario;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class HorarioRequestDto {
-    private LocalDate fecha;
+public class HorarioUpdateRequestDto {
     private LocalTime horaEntrada;
     private LocalTime horaSalida;
-    private Long idRol;
 }

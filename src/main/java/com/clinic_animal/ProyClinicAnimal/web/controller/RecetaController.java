@@ -7,9 +7,11 @@ import com.clinic_animal.ProyClinicAnimal.web.dto.response.RecetaResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -20,6 +22,7 @@ public class RecetaController {
 
 
     @GetMapping
+    @Transactional(readOnly = true)
     public ResponseEntity<List<RecetaResponseDto>> listar() {
         return ResponseEntity.ok(recetaService.listar());
     }
@@ -56,13 +59,13 @@ public class RecetaController {
     }
 
 
-    @GetMapping("/fecha")
-    public ResponseEntity<List<RecetaResponseDto>> buscarPorFecha(
-            @RequestParam String inicio,
-            @RequestParam String fin) {
-        LocalDate fechaInicio = LocalDate.parse(inicio);
-        LocalDate fechaFin = LocalDate.parse(fin);
-        return ResponseEntity.ok(recetaService.buscarPorFecha(fechaInicio, fechaFin));
-    }
+//    @GetMapping("/fecha")
+//    public ResponseEntity<List<RecetaResponseDto>> buscarPorFecha(
+//            @RequestParam String inicio,
+//            @RequestParam String fin) {
+//        LocalDateTime fechaInicio = LocalDateTime.parse(inicio);
+//        LocalDateTime fechaFin = LocalDateTime.parse(fin);
+//        return ResponseEntity.ok(recetaService.buscarPorFecha(fechaInicio, fechaFin));
+//    }
 
 }
