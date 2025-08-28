@@ -1,21 +1,26 @@
 package com.clinic_animal.ProyClinicAnimal.aplication.mapper.impl;
 
 import com.clinic_animal.ProyClinicAnimal.aplication.mapper.CitaMaper;
-import com.clinic_animal.ProyClinicAnimal.domain.model.Cita;
-import com.clinic_animal.ProyClinicAnimal.domain.model.Mascota;
+import com.clinic_animal.ProyClinicAnimal.domain.model.*;
 import com.clinic_animal.ProyClinicAnimal.domain.model.estados.EstadoCita;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.CitaRequestDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.CitaResponseDto;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class CitaMapperImpl implements CitaMaper {
     @Override
-    public Cita toEntity(CitaRequestDto dto, Mascota mascota) {
+    public Cita toEntity(CitaRequestDto dto, Mascota mascota, Cliente cliente, Personal recep, Personal vet, Areas areas) {
         return Cita.builder()
-                .fechaHora(dto.getFechaHora())
-                .estado(EstadoCita.EN_COLA)
+                .fechaHora(LocalDateTime.now())
+                .estado(dto.getEstadoCita())
                 .mascota(mascota)
+                .cliente(cliente)
+                .recepcionista(recep)
+                .veterinario(vet)
+                .area(areas)
                 .build();}
 
     @Override
@@ -26,6 +31,14 @@ public class CitaMapperImpl implements CitaMaper {
                 .estado(entity.getEstado())
                 .mascotaId(entity.getMascota().getId())
                 .nombreMascota(entity.getMascota().getNombre())
+                .idCliente(entity.getCliente().getId())
+                .nomCliente(entity.getCliente().getNombre())
+                .idRecepcionista(entity.getRecepcionista().getId())
+                .nomRecepcionista(entity.getRecepcionista().getNombrePersonal())
+                .idVeterinario(entity.getVeterinario().getId())
+                .nomVeterinario(entity.getVeterinario().getNombrePersonal())
+                .idArea(entity.getArea().getCodigoArea())
+                .nomArea(entity.getArea().getNomArea())
                 .tieneReceta(entity.getReceta() != null)
                 .build();}
 }

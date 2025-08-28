@@ -13,14 +13,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/citas")
+@RequestMapping("/api/cita")
 @RequiredArgsConstructor
 public class CitaController {
     private final CitaService citaService;
 
     @GetMapping
-    public ResponseEntity<List<CitaResponseDto>> listar() {
-        return ResponseEntity.ok(citaService.listar());
+    public ResponseEntity<List<CitaResponseDto>> listar(@RequestParam(required = false) EstadoCita estado)
+    {
+        return ResponseEntity.ok(citaService.listar(estado));
     }
 
     @PostMapping
@@ -29,30 +30,13 @@ public class CitaController {
                 .body(citaService.crear(requestDto));
     }
 
-    @PutMapping("/{id}/estado")
-    public ResponseEntity<CitaResponseDto> actualizarEstado(@PathVariable Long id,
-                                                            @RequestBody CitaUpdateDTO requestDto) {
-        return ResponseEntity.ok(citaService.actualizarEstado(id, requestDto));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        citaService.eliminar(id);
-        return ResponseEntity.noContent().build();
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<CitaResponseDto> obtenerPorId(@PathVariable Long id) {
         return ResponseEntity.ok(citaService.obtenerPorId(id));
     }
 
-    @GetMapping("/mascota/{mascotaId}")
+    @GetMapping("/mascota/{id}")
     public ResponseEntity<List<CitaResponseDto>> listarPorMascota(@PathVariable Long mascotaId) {
         return ResponseEntity.ok(citaService.listarPorMascota(mascotaId));
-    }
-
-    @GetMapping("/estado/{estado}")
-    public ResponseEntity<List<CitaResponseDto>> listarPorEstado(@PathVariable EstadoCita estado) {
-        return ResponseEntity.ok(citaService.listarPorEstado(estado));
     }
 }
