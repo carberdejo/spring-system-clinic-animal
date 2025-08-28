@@ -1,5 +1,7 @@
 package com.clinic_animal.ProyClinicAnimal.aplication.service.impl;
 
+import com.clinic_animal.ProyClinicAnimal.aplication.exception.ErrorNegocio;
+import com.clinic_animal.ProyClinicAnimal.aplication.mapper.RecetaMaper;
 import com.clinic_animal.ProyClinicAnimal.aplication.service.RecetaService;
 import com.clinic_animal.ProyClinicAnimal.domain.model.Cita;
 import com.clinic_animal.ProyClinicAnimal.domain.model.Receta;
@@ -11,7 +13,6 @@ import com.clinic_animal.ProyClinicAnimal.web.dto.response.RecetaResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class RecetaServicioImpl implements RecetaService {
 
     private final RecetaRepository recetaRepository;
     private final CitaRepository citaRepository;
+    private final RecetaMaper recetaMaper;
 
 
     @Override
@@ -30,16 +32,7 @@ public class RecetaServicioImpl implements RecetaService {
         Cita cita = citaRepository.findById(recetaRequestDTO.getCitaId())
                 .orElseThrow(() -> new RuntimeException("Cita no encontrada con id: " + recetaRequestDTO.getCitaId()));
 
-        LocalDateTime fecha = recetaRequestDTO.getFechaEmision() != null
-                ? recetaRequestDTO.getFechaEmision()
-                : LocalDateTime.now();
-
-        Receta receta = Receta.builder()
-                .fechaEmision(fecha)
-                .indicaciones(recetaRequestDTO.getIndicaciones())
-                .medicamentos(recetaRequestDTO.getMedicamentos())
-                .cita(cita)
-                .build();
+        Receta receta = recetaMaper.toEntity(recetaRequestDTO,cita);
 
         return mapToResponse(recetaRepository.save(receta));
 
@@ -48,33 +41,31 @@ public class RecetaServicioImpl implements RecetaService {
     @Override
     public RecetaResponseDto obtenerPorId(Long id) {
         return recetaRepository.findById(id)
-                .map(this::mapToResponse)
-                .orElseThrow(() -> new RuntimeException("Receta no encontrada con id: " + id));
+                .map(recetaMaper::toDto)
+                .orElseThrow(() -> new ErrorNegocio("Receta no encontrada con id: " + id));
 
     }
 
     @Override
     public List<RecetaResponseDto> listar() {
         return recetaRepository.findAll().stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+                .map(recetaMaper::toDto).toList();
     }
 
     @Override
     public List<RecetaResponseDto> buscarPorNombre(String nombre) {
-        return recetaRepository.findByNombreContainingIgnoreCase(nombre).stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+        return recetaRepository.findByMedicamentosContainingIgnoreCase(nombre).stream()
+                .map(recetaMaper::toDto).toList();
     }
 
-    @Override
-    public List<RecetaResponseDto> buscarPorFecha(LocalDate inicio, LocalDate fin) {
-
-        return recetaRepository.findByFechaBetween(inicio, fin).stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
-
-    }
+//    @Override
+//    public List<RecetaResponseDto> buscarPorFecha(LocalDateTime inicio, LocalDateTime fin) {
+//
+//        return recetaRepository.findByFechaEmisionBetween(inicio, fin).stream()
+//                .map(this::mapToResponse)
+//                .collect(Collectors.toList());
+//
+//    }
 
     @Override
     public RecetaResponseDto actualizar(Long id, RecetaUpdateDto recetaUpdateDTO) {
@@ -110,7 +101,7 @@ public class RecetaServicioImpl implements RecetaService {
 
         return RecetaResponseDto.builder()
                 .id(receta.getId())
-                .fechaEmision(receta.getFechaEmision())
+//                .fechaEmision(receta.getFechaEmision())
                 .indicaciones(receta.getIndicaciones())
                 .medicamentos(receta.getMedicamentos())
                 .citaId(citaId)

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class RecetaRequestDto {
-    private LocalDateTime fechaEmision;
+//    private LocalDateTime fechaEmision;
     private String indicaciones;
     private String medicamentos;
     private Long citaId;
