@@ -17,6 +17,14 @@ public class CitaResponseDto {
     private EstadoCita estado;
     private Long mascotaId;
     private String nombreMascota;
+    private Long idCliente;
+    private String nomCliente;
+    private Long idRecepcionista;
+    private String nomRecepcionista;
+    private  Long idVeterinario;
+    private String nomVeterinario;
+    private  Long idArea;
+    private String nomArea;
     private boolean tieneReceta;
 
 

@@ -27,8 +27,16 @@ public class Cita {
     private EstadoCita estado;
 
     @ManyToOne
+    @JoinColumn(name = "id_area",referencedColumnName = "Codigo_Area",nullable = false)
+    private Areas area;
+
+    @ManyToOne
     @JoinColumn(name = "id_mascota",referencedColumnName = "id_mascota",nullable = false)
     private Mascota mascota;
+
+    @ManyToOne
+    @JoinColumn(name = "id_cliente",referencedColumnName = "id_cliente",nullable = false)
+    private Cliente cliente;
 
     @ManyToOne
     @JoinColumn(name = "id_recepcionista",referencedColumnName = "id_personal",nullable = false)

@@ -1,5 +1,6 @@
 package com.clinic_animal.ProyClinicAnimal.web.dto.request;
 
+import com.clinic_animal.ProyClinicAnimal.domain.model.estados.EstadoCita;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class CitaRequestDto {
-    private LocalDateTime fechaHora;
     private Long mascotaId;
+    private Long idCliente;
+    private Long idRecepcionista;
+    private  Long idVeterinario;
+    private Long idArea;
+    private EstadoCita estadoCita;
+
 }

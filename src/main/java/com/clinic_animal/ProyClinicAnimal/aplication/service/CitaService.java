@@ -14,5 +14,5 @@ public interface CitaService {
     List<CitaResponseDto> listarPorMascota(Long mascotaId);
     List<CitaResponseDto> listarPorEstado(EstadoCita estado);
     CitaResponseDto actualizarEstado(Long id, CitaUpdateDTO citaUpdateDTO);
-    void eliminar(Long id);
+
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/citas")
+@RequestMapping("/api/cita")
 @RequiredArgsConstructor
 public class CitaController {
     private final CitaService citaService;
@@ -37,7 +37,7 @@ public class CitaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        citaService.eliminar(id);
+//        citaService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 
