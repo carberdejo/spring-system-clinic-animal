@@ -6,4 +6,12 @@ public enum EstadoCita {
     public boolean validarEstadoCrear(){
         return this == CANCELADO || this == EN_PROGRESO || this == TERMINADA;
     }
+
+    public boolean validarCambiarEstado(){
+        return this == TERMINADA || this == EN_PROGRESO || this == CANCELADO;
+    }
+
+    public boolean validarReProgramar(){
+        return this == TERMINADA || this == EN_PROGRESO;
+    }
 }

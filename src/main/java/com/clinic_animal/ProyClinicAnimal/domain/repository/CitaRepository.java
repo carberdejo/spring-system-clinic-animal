@@ -9,6 +9,6 @@ import java.util.List;
 public interface CitaRepository extends JpaRepository<Cita,Long> {
 
     List<Cita> findAllByMascotaId(Long mascotaId);
-    List<Cita> findByEstado(EstadoCita estado);
+    List<Cita> findAllByEstado(EstadoCita estado);
 
 }

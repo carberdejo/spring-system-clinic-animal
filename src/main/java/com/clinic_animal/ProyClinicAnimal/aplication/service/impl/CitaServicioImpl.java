@@ -57,7 +57,12 @@ public class CitaServicioImpl implements CitaService {
     }
 
     @Override
-    public List<CitaResponseDto> listar() {
+    public List<CitaResponseDto> listar(EstadoCita updateDTO) {
+
+        if(updateDTO != null){
+            return citaRepository.findAllByEstado(updateDTO).stream()
+                    .map(citaMaper::toDto).toList();
+        }
         return citaRepository.findAll().stream()
                 .map(citaMaper::toDto).toList();
 
@@ -67,22 +72,6 @@ public class CitaServicioImpl implements CitaService {
     public List<CitaResponseDto> listarPorMascota(Long mascotaId) {
         return citaRepository.findAllByMascotaId(mascotaId).stream()
                 .map(citaMaper::toDto).toList();
-    }
-
-    @Override
-    public List<CitaResponseDto> listarPorEstado(EstadoCita estado) {
-        return citaRepository.findByEstado(estado).stream()
-                .map(citaMaper::toDto).toList();
-    }
-
-    @Override
-    public CitaResponseDto actualizarEstado(Long id, CitaUpdateDTO citaUpdateDTO) {
-        Cita cita = citaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
-
-        cita.setEstado(citaUpdateDTO.getEstado());
-
-        return citaMaper.toDto(citaRepository.save(cita));
     }
 
 

@@ -10,9 +10,9 @@ import java.util.List;
 public interface CitaService {
     CitaResponseDto crear(CitaRequestDto citaRequestDTO);
     CitaResponseDto obtenerPorId(Long id);
-    List<CitaResponseDto> listar();
+    List<CitaResponseDto> listar(EstadoCita updateDTO);
     List<CitaResponseDto> listarPorMascota(Long mascotaId);
-    List<CitaResponseDto> listarPorEstado(EstadoCita estado);
-    CitaResponseDto actualizarEstado(Long id, CitaUpdateDTO citaUpdateDTO);
+
+
 
 }
