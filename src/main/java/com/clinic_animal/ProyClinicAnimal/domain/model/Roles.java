@@ -21,6 +21,8 @@ public class Roles {
     private String rolNombre;
     @Column(name = "Descripcion")
     private String descripcion;
+    @Column(name="Acceso_Web")
+    private boolean accesoWeb;
     @OneToMany(mappedBy = "roles",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Personal> personalList;
 }

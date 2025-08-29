@@ -12,6 +12,7 @@ import com.clinic_animal.ProyClinicAnimal.domain.repository.PersonalRepository;
 import com.clinic_animal.ProyClinicAnimal.domain.repository.RolRepository;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalRequestDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateEstadoDto;
+import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateRolesDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.PersonalResponseDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateDto;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class PersonalServiceImpl implements PersonalService {
     private final AreaRepositry areasRep;
     private final RolRepository rolesRep;
 
+
     @Override
     public PersonalResponseDto crear(PersonalRequestDto personalRequestDto) {
 
@@ -36,11 +38,18 @@ public class PersonalServiceImpl implements PersonalService {
             throw new ErrorNegocio("Ese trabajador ya existe");
         if (personalRep.existsByEmail(personalRequestDto.getEmail()))
             throw new ErrorNegocio("Ese email ya esta registrado");
-        if(personalRequestDto.getContraseña().length()<7){
-            throw new ErrorNegocio("Contraseña muy pequeña");
-        }
-        if(!personalRequestDto.getContraseña().matches(".*\\d.*")){
-            throw new ErrorNegocio("Tienes que añadir al menos un numero a tu contraseña por seguridad");
+        Roles rol = rolesRep.findByRolCodigo(personalRequestDto.getRolCodigo());
+        if(!rol.isAccesoWeb()) {
+            if (personalRequestDto.getContraseña() != null && !personalRequestDto.getContraseña().isEmpty()) {
+                throw new ErrorNegocio("Este rol no puede tener contraseña");
+            }
+        }else{
+            if (personalRequestDto.getContraseña().length() < 7) {
+                throw new ErrorNegocio("Contraseña muy pequeña");
+            }
+            if (!personalRequestDto.getContraseña().matches(".*\\d.*")) {
+                throw new ErrorNegocio("Tienes que añadir al menos un numero a tu contraseña por seguridad");
+            }
         }
         if (!areasRep.existsByCodigoArea(personalRequestDto.getCodigoArea())) {
             throw new ErrorNegocio("Esta Área no existe");
@@ -122,9 +131,6 @@ public class PersonalServiceImpl implements PersonalService {
 
         if (personalRep.existsByEmail(personalUpdateDto.getEmail()))
             throw new ErrorNegocio("Ese email ya esta registrado");
-        if (!areasRep.existsByCodigoArea(personalUpdateDto.getCodigoArea())) {
-            throw new ErrorNegocio("Esta Área no existe");
-        }
         // Buscar Área por nombre
         Areas area = areasRep.findByCodigoArea(personalUpdateDto.getCodigoArea());
         if (area == null) {
@@ -136,8 +142,6 @@ public class PersonalServiceImpl implements PersonalService {
             throw new ErrorNegocio("El rol de codigo" + personalUpdateDto.getCodigoArea() + "' no existe");
         }
         // Actualizar campos
-        personal.setAreas(area);
-        personal.setRoles(rol);
         personal.setEmail(personalUpdateDto.getEmail());
         personal.setTelefono(personalUpdateDto.getTelefono());
 
@@ -154,9 +158,65 @@ public class PersonalServiceImpl implements PersonalService {
                if(personal.getEstadoPersonal().equals(personalUpdateEstadoDto.getEstadoPersonal())){
                throw new ErrorNegocio("Este trabajador ya tiene ese estado");
        }
+               EstadoPersonal pEstadoAntiguo = personal.getEstadoPersonal();
+        EstadoPersonal pEstadoNuevo = personalUpdateEstadoDto.getEstadoPersonal();
+               if(pEstadoAntiguo == EstadoPersonal.OCUPADO && pEstadoNuevo == EstadoPersonal.DESCANSO){
+                   throw new ErrorNegocio("No le puedes dar descanso a alguien que este ocupado");
+               }
         personal.setEstadoPersonal(personalUpdateEstadoDto.getEstadoPersonal());
         Personal personalActu = personalRep.save(personal);
         return personalMap.toDto(personalActu);
     }
+
+    @Override
+    public PersonalResponseDto actualizarRoles(PersonalUpdateRolesDto personalUpdateRolesDto, Long id) {
+        Personal personal = personalRep.findById(id)
+                .orElseThrow(() -> new ErrorNegocio("No se encontró el trabajador con id: " + id));
+
+        // Obtener área
+        Areas area = areasRep.findByCodigoArea(personalUpdateRolesDto.getCodigoArea());
+        if (area == null) {
+            throw new ErrorNegocio("El área de código " + personalUpdateRolesDto.getCodigoArea() + " no existe");
+        }
+
+        // Obtener rol nuevo
+        Roles rolNuevo = rolesRep.findByRolCodigo(personalUpdateRolesDto.getRolCodigo());
+        if (rolNuevo == null) {
+            throw new ErrorNegocio("El rol de código " + personalUpdateRolesDto.getRolCodigo() + " no existe");
+        }
+
+        // Obtener rol anterior
+        Roles rolAnterior = personal.getRoles();
+
+        // Manejo de contraseña según accesoWeb
+        if (!rolAnterior.isAccesoWeb() && rolNuevo.isAccesoWeb()) {
+            // Cambia de rol sin acceso → con acceso → exigir contraseña
+            if (personalUpdateRolesDto.getContraseña() == null || personalUpdateRolesDto.getContraseña().isEmpty()) {
+                throw new ErrorNegocio("Debes ingresar una contraseña al cambiar a un rol con acceso web");
+            }
+            // Validación de contraseña
+            if (personalUpdateRolesDto.getContraseña().length() < 7) {
+                throw new ErrorNegocio("Contraseña muy pequeña");
+            }
+            if (!personalUpdateRolesDto.getContraseña().matches(".*\\d.*")) {
+                throw new ErrorNegocio("La contraseña debe contener al menos un número");
+            }
+            personal.setContraseña(personalUpdateRolesDto.getContraseña());
+        } else if (!rolNuevo.isAccesoWeb()) {
+            // Si el rol nuevo no tiene acceso web → borrar contraseña
+            personal.setContraseña(null);
+        }
+        else if(rolNuevo.isAccesoWeb() && rolAnterior.isAccesoWeb() && personalUpdateRolesDto.getContraseña() != null /*&& !personal.getRoles().getRolNombre().equals("admin")*/){
+            throw new ErrorNegocio("Solo el Administrador puede cambiar contraseñas");
+        }
+
+        // Actualizar campos normales
+        personal.setAreas(area);
+        personal.setRoles(rolNuevo);
+
+        Personal personalActu = personalRep.save(personal);
+        return personalMap.toDto(personalActu);
+    }
+
 
 }

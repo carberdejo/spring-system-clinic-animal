@@ -4,6 +4,7 @@ package com.clinic_animal.ProyClinicAnimal.aplication.service;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalRequestDto;
 
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateEstadoDto;
+import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateRolesDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.PersonalResponseDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateDto;
 
@@ -17,4 +18,5 @@ public interface PersonalService {
     List<PersonalResponseDto> obtenerporCodigoArea(Long codigoArea);
     PersonalResponseDto actualizar(PersonalUpdateDto personalUpdateDto, Long id);
     PersonalResponseDto actualizarEstado(PersonalUpdateEstadoDto personalUpdateEstadoDto, Long id);
+    PersonalResponseDto actualizarRoles(PersonalUpdateRolesDto personalUpdateRolesDto, Long id);
 }

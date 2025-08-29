@@ -39,6 +39,7 @@ public class CitaMapperImpl implements CitaMaper {
                 .nomVeterinario(entity.getVeterinario().getNombrePersonal())
                 .idArea(entity.getArea().getCodigoArea())
                 .nomArea(entity.getArea().getNomArea())
+                .nombreMascota(entity.getMascota().getNombre())
                 .tieneReceta(entity.getReceta() != null)
                 .build();}
 }

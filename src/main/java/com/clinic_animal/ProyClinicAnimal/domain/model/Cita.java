@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Cita")
@@ -48,4 +50,8 @@ public class Cita {
 
     @OneToOne(mappedBy = "cita", cascade = CascadeType.ALL, optional = true)
     private Receta receta;
+
+    @OneToMany(mappedBy = "cita", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CitaServicio> citaServicios = new ArrayList<>();
+
 }
