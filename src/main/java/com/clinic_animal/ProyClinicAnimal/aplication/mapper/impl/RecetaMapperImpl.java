@@ -30,7 +30,7 @@ public class RecetaMapperImpl implements RecetaMaper {
                 .cantidad(entity.getCantidad())
                 .medicamentos(entity.getMedicamentos())
                 .citaId(entity.getCita().getId())
-                .nombrePaciente(entity.getCita().getMascota().getNombreMascota())
+                .nombrePaciente(entity.getCita().getMascota().getNombre())
                 .build();
     }
 

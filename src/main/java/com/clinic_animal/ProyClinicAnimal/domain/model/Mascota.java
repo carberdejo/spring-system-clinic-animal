@@ -19,7 +19,7 @@ public class Mascota {
     @Column(name="id_mascota")
     private Long id;
     @Column(name="nom_mascota")
-    private String nombreMascota;
+    private String nombre;
     @Column(name="raza")
     private String raza;
     @Column(name="especie")

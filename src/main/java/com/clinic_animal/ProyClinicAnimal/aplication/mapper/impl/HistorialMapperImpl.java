@@ -17,7 +17,7 @@ public class HistorialMapperImpl implements HistorialMapper {
 
         return HistorialMedicoDto.builder()
                 .idMascota(m.getId())
-                .nombreMascota(m.getNombreMascota())
+                .nombreMascota(m.getNombre())
                 .edad(m.getEdad())
                 .sexo(m.getSexo())
                 .raza(m.getRaza())
