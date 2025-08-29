@@ -29,7 +29,7 @@ public class AsistenciaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(asistenciaService.registrarEntrada(requestDto));
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<AsistenciaResponseDto>registrarSalida(@PathVariable Long id){
         return ResponseEntity.ok(asistenciaService.registrarSalida(id));
     }

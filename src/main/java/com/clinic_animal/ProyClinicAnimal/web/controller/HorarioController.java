@@ -32,7 +32,7 @@ public class HorarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(horarioService.crear(requestDto));
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping ("/{id}")
     public ResponseEntity<HorarioResponseDto>updateHoras(@PathVariable Long id, @RequestBody HorarioUpdateRequestDto updateRequestDto){
         return ResponseEntity.ok(horarioService.UpdateHoras(id,updateRequestDto));
     }
