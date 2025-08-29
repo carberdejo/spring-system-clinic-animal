@@ -39,7 +39,7 @@ public class Personal {
     @Enumerated (EnumType.STRING)
     private EstadoPersonal estadoPersonal;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Codigo_Rol")
     private Roles roles;
 

@@ -36,7 +36,7 @@ public class CitaController {
     }
 
     @GetMapping("/mascota/{id}")
-    public ResponseEntity<List<CitaResponseDto>> listarPorMascota(@PathVariable Long mascotaId) {
-        return ResponseEntity.ok(citaService.listarPorMascota(mascotaId));
+    public ResponseEntity<List<CitaResponseDto>> listarPorMascota(@PathVariable Long id) {
+        return ResponseEntity.ok(citaService.listarPorMascota(id));
     }
 }

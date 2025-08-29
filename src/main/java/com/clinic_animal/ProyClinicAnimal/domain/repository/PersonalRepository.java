@@ -5,11 +5,12 @@ import com.clinic_animal.ProyClinicAnimal.domain.model.estados.EstadoPersonal;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PersonalRepository extends JpaRepository<Personal,Long> {
     boolean existsByDni(String dni);
     boolean existsByEmail(String email);
-
+    Optional<Personal> findByEmail(String email);
     List<Personal> findAllByEstadoPersonalNot(EstadoPersonal estado);
     List<Personal> findAllByRoles_RolCodigoAndEstadoPersonalNot(Long rolCodigo, EstadoPersonal estadoPersonal);
     List<Personal> findAllByAreas_CodigoAreaAndEstadoPersonalNot(Long codigoArea, EstadoPersonal estadoPersonal);

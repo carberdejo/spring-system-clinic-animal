@@ -13,3 +13,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
+security:
+  secret-key: miClaveSuperMegaSecreta0123456789
+  expiration: 900000
