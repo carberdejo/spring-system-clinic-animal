@@ -1,10 +1,9 @@
-package com.clinic_animal.ProyClinicAnimal.web.dto.response;
+package com.clinic_animal.ProyClinicAnimal.web.dto.request;
 
 import lombok.*;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class MascotaResponseDto {
-    private Long id;
+public class MascotaUpdateRequestDto {
     private String nombre;
     private String raza;
     private String especie;
