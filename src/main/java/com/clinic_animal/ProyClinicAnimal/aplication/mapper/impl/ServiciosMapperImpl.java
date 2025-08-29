@@ -4,6 +4,7 @@ import com.clinic_animal.ProyClinicAnimal.aplication.mapper.ServiciosMapper;
 import com.clinic_animal.ProyClinicAnimal.domain.model.Areas;
 import com.clinic_animal.ProyClinicAnimal.domain.model.Servicios;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.ServiciosRequestDto;
+import com.clinic_animal.ProyClinicAnimal.web.dto.request.ServiciosUpdateEstadoDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.ServiciosResponseDto;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ public class ServiciosMapperImpl implements ServiciosMapper {
                 .duracion(req.getDuracion())
                 .precio(req.getPrecio())
                 .area(area)
+                .activo(req.isActivo())
                 .build();
     }
 
@@ -30,6 +32,14 @@ public class ServiciosMapperImpl implements ServiciosMapper {
                 .precio(res.getPrecio())
                 .idArea(res.getArea().getCodigoArea())
                 .nomArea(res.getArea().getNomArea())
+                .activo(res.isActivo())
                 .build();
+    }
+
+    @Override
+    public void ServiciosUpdateEstadoDto(ServiciosUpdateEstadoDto dto, Servicios entity) {
+
+            entity.setActivo(dto.isActivo());
+
     }
 }

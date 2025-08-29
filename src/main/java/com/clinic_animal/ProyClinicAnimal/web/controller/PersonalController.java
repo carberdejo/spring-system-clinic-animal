@@ -2,11 +2,8 @@ package com.clinic_animal.ProyClinicAnimal.web.controller;
 
 
 import com.clinic_animal.ProyClinicAnimal.aplication.service.PersonalService;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalRequestDto;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateEstadoDto;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateRolesDto;
+import com.clinic_animal.ProyClinicAnimal.web.dto.request.*;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.PersonalResponseDto;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,5 +47,10 @@ public class PersonalController {
     @PatchMapping("/CambiarRoles/{id}")
     public ResponseEntity<PersonalResponseDto> actualizarRoles(@PathVariable("id") Long id,@RequestBody PersonalUpdateRolesDto personalUpdateRolesDto) {
         return ResponseEntity.status(HttpStatus.OK).body(personalService.actualizarRoles(personalUpdateRolesDto, id));
+    }
+
+    @PatchMapping("/FinDescanso/{id}")
+    public ResponseEntity<PersonalResponseDto> finalizarDescanso(@PathVariable("id") Long id,@RequestBody PersonalRemoverDescansoDto personalRemoverDescansoDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(personalService.finalizarDescanso(personalRemoverDescansoDto, id));
     }
 }

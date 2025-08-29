@@ -1,12 +1,9 @@
 package com.clinic_animal.ProyClinicAnimal.aplication.service;
 
 
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalRequestDto;
+import com.clinic_animal.ProyClinicAnimal.web.dto.request.*;
 
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateEstadoDto;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateRolesDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.PersonalResponseDto;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateDto;
 
 import java.util.List;
 
@@ -19,4 +16,5 @@ public interface PersonalService {
     PersonalResponseDto actualizar(PersonalUpdateDto personalUpdateDto, Long id);
     PersonalResponseDto actualizarEstado(PersonalUpdateEstadoDto personalUpdateEstadoDto, Long id);
     PersonalResponseDto actualizarRoles(PersonalUpdateRolesDto personalUpdateRolesDto, Long id);
+    PersonalResponseDto finalizarDescanso(PersonalRemoverDescansoDto personalRemoverDescansoDto, Long id);
 }

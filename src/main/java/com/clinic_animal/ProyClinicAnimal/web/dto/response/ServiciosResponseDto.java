@@ -15,4 +15,5 @@ public class ServiciosResponseDto {
     private double precio;
     private Long idArea;
     private String nomArea;
+    private boolean activo;
 }

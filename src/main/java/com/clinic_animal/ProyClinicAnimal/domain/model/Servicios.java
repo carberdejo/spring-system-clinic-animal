@@ -19,6 +19,7 @@ public class Servicios {
     private String descripcion;
     private Integer duracion;
     private double precio;
+    private boolean activo;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="Codigo_Area")
     private Areas area;

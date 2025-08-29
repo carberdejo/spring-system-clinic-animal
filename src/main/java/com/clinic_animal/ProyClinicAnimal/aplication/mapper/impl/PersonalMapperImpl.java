@@ -5,11 +5,8 @@ import com.clinic_animal.ProyClinicAnimal.domain.model.Areas;
 import com.clinic_animal.ProyClinicAnimal.domain.model.Personal;
 import com.clinic_animal.ProyClinicAnimal.domain.model.Roles;
 import com.clinic_animal.ProyClinicAnimal.domain.model.estados.EstadoPersonal;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalRequestDto;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateEstadoDto;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateRolesDto;
+import com.clinic_animal.ProyClinicAnimal.web.dto.request.*;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.PersonalResponseDto;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateDto;
 import lombok.Builder;
 import org.springframework.stereotype.Component;
 
@@ -82,5 +79,10 @@ public class PersonalMapperImpl implements PersonalMapper {
         if(dto.getContraseña()!= null){
             entity.setContraseña(dto.getContraseña());
         }
+    }
+
+    @Override
+    public void PersonalRemoverDescansoDto(PersonalRemoverDescansoDto personalRemoverDescansoDto, Personal entity) {
+        entity.setEstadoPersonal(EstadoPersonal.DISPONIBLE);
     }
 }
