@@ -55,7 +55,7 @@ public class PersonalServiceImpl implements PersonalService {
             throw new ErrorNegocio("Este rol no existe");
         }
         if(!personalRequestDto.getEmail().endsWith("@gmail.com"))
-            throw new ErrorNegocio("Aprende a escribir un correo");
+            throw new ErrorNegocio("Un correo siempre debe acabar con @gmail.com");
         if(personalRequestDto.getEdad() <17){
             throw new ErrorNegocio("Eres muy pequeño para trabajar :(");
         }
