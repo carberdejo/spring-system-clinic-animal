@@ -2,7 +2,8 @@ package com.clinic_animal.ProyClinicAnimal.web.dto.response;
 
 import lombok.*;
 
-import java.util.List;
+import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
@@ -12,10 +13,15 @@ import java.util.List;
 public class HistorialMedicoDto {
     private Long idMascota;
     private String nombreMascota;
-    private int edad;
-    private String sexo;
-    private String raza;
     private String especie;
+    private String raza;
+    private Integer edad;
+    private String sexo;
+    private Long idCliente;
+    private String nombreCliente;
+    private String dniCliente;
+    private Integer totalCitas;
+    private LocalDateTime fechaPrimeraCita;
+    private LocalDateTime fechaUltimaCita;
 
-    private List<ServicioHistorialDto> servicios;
 }

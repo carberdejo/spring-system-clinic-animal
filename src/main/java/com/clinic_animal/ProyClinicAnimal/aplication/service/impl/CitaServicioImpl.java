@@ -75,36 +75,6 @@ public class CitaServicioImpl implements CitaService {
     }
 
 
-<<<<<<< HEAD
-=======
-    @Override
-    public CitaResponseDto actualizarEstado(Long id, CitaUpdateDTO citaUpdateDTO) {
-        Cita cita = citaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
 
-        cita.setEstado(citaUpdateDTO.getEstado());
-
-        return mapToResponse(citaRepository.save(cita));
-    }
-
-    @Override
-    public void eliminar(Long id) {
-        if (!citaRepository.existsById(id)) {
-            throw new RuntimeException("Cita no encontrada");
-        }
-        citaRepository.deleteById(id);
-    }
-
-    private CitaResponseDto mapToResponse(Cita cita) {
-        return CitaResponseDto.builder()
-                .id(cita.getId())
-                .fechaHora(cita.getFechaHora())
-                .estado(cita.getEstado())
-                .mascotaId(cita.getMascota().getId())
-                .nombreMascota(cita.getMascota().getNombreMascota())
-                .tieneReceta(cita.getReceta() != null)
-                .build();
-    }
->>>>>>> 96f3ba0 (Super Cambios)
 }
 

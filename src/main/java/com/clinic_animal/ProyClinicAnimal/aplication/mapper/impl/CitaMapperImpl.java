@@ -30,7 +30,6 @@ public class CitaMapperImpl implements CitaMaper {
                 .fechaHora(entity.getFechaHora())
                 .estado(entity.getEstado())
                 .mascotaId(entity.getMascota().getId())
-<<<<<<< HEAD
                 .nombreMascota(entity.getMascota().getNombre())
                 .idCliente(entity.getCliente().getId())
                 .nomCliente(entity.getCliente().getNombre())
@@ -40,9 +39,7 @@ public class CitaMapperImpl implements CitaMaper {
                 .nomVeterinario(entity.getVeterinario().getNombrePersonal())
                 .idArea(entity.getArea().getCodigoArea())
                 .nomArea(entity.getArea().getNomArea())
-=======
-                .nombreMascota(entity.getMascota().getNombreMascota())
->>>>>>> 96f3ba0 (Super Cambios)
+                .nombreMascota(entity.getMascota().getNombre())
                 .tieneReceta(entity.getReceta() != null)
                 .build();}
 }
