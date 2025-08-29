@@ -158,6 +158,11 @@ public class PersonalServiceImpl implements PersonalService {
                if(personal.getEstadoPersonal().equals(personalUpdateEstadoDto.getEstadoPersonal())){
                throw new ErrorNegocio("Este trabajador ya tiene ese estado");
        }
+               EstadoPersonal pEstadoAntiguo = personal.getEstadoPersonal();
+        EstadoPersonal pEstadoNuevo = personalUpdateEstadoDto.getEstadoPersonal();
+               if(pEstadoAntiguo == EstadoPersonal.OCUPADO && pEstadoNuevo == EstadoPersonal.DESCANSO){
+                   throw new ErrorNegocio("No le puedes dar descanso a alguien que este ocupado");
+               }
         personal.setEstadoPersonal(personalUpdateEstadoDto.getEstadoPersonal());
         Personal personalActu = personalRep.save(personal);
         return personalMap.toDto(personalActu);
