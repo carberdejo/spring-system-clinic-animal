@@ -89,7 +89,7 @@ public class PersonalServiceImpl implements PersonalService {
 
         Personal personal = personalRep.findById(id)
                 .orElseThrow(() -> new ErrorNegocio("No se encontró el trabajador con id: " + id));
-        if(personal.getEstadoPersonal().equals(EstadoPersonal.NO_DISPONIBLE)){
+        if (EstadoPersonal.NO_DISPONIBLE.equals(personal.getEstadoPersonal())) {
             throw new ErrorNegocio("Este trabajador ha sido despedido");
         }
         return personalMap.toDto(personal);
