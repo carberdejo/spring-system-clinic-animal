@@ -2,6 +2,7 @@ package com.clinic_animal.ProyClinicAnimal.web.controller;
 
 import com.clinic_animal.ProyClinicAnimal.aplication.service.ServiciosService;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.ServiciosRequestDto;
+import com.clinic_animal.ProyClinicAnimal.web.dto.request.ServiciosUpdateEstadoDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.ServiciosResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,10 @@ public class ServiciosController {
     @PatchMapping("{id}")
     public ResponseEntity<ServiciosResponseDto>editar(@PathVariable("id") Long id,@RequestBody ServiciosRequestDto requestDto){
         return ResponseEntity.ok(serviciosService.editar(id,requestDto));
+    }
+    @PatchMapping("/Estado/{id}")
+    public ResponseEntity<ServiciosResponseDto>deshabilitar(@PathVariable("id") Long id,@RequestBody ServiciosUpdateEstadoDto serviciosUpdateEstadoDto){
+        return ResponseEntity.ok(serviciosService.deshabilitar(id,serviciosUpdateEstadoDto));
     }
 
 

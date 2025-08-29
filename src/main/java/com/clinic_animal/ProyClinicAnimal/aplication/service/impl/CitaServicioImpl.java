@@ -12,6 +12,7 @@ import com.clinic_animal.ProyClinicAnimal.web.dto.response.CitaResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,28 +25,52 @@ public class CitaServicioImpl implements CitaService {
     private final MascotaRepository mascotaRepository;
     private final CitaMaper citaMaper;
     private final AreaRepositry areaRepositry;
+    private final ServiciosRepository serviciosRepository;
+    private final CitaServicioRepository citaServicioRepository;
 
     @Override
     public CitaResponseDto crear(CitaRequestDto citaRequestDTO) {
         Mascota mascota = mascotaRepository.findById(citaRequestDTO.getMascotaId())
                 .orElseThrow(() -> new RuntimeException("Mascota no encontrada"));
-        Cliente cliente = clienteRepository.findById(citaRequestDTO.getIdCliente()).
-                orElseThrow(()-> new ErrorNegocio("Cliente con ID"+ citaRequestDTO.getIdCliente()+" no encontrado"));
+        Cliente cliente = clienteRepository.findById(citaRequestDTO.getIdCliente())
+                .orElseThrow(() -> new ErrorNegocio("Cliente con ID " + citaRequestDTO.getIdCliente() + " no encontrado"));
         Personal recepcionista = personalRepository.findById(citaRequestDTO.getIdRecepcionista())
-                .orElseThrow(()->new ErrorNegocio("Recepcionista con ID "+" no encontrado"));
+                .orElseThrow(() -> new ErrorNegocio("Recepcionista con ID " + citaRequestDTO.getIdRecepcionista() + " no encontrado"));
         Personal veterinario = personalRepository.findById(citaRequestDTO.getIdVeterinario())
-                .orElseThrow(()->new ErrorNegocio("Veterinario con ID "+citaRequestDTO.getIdVeterinario()+" no encontrado"));
-        Areas areas = areaRepositry.findById(citaRequestDTO.getIdArea())
-                .orElseThrow(()->new ErrorNegocio("Area con ID "+citaRequestDTO.getIdArea()+" no encontrado"));
-
+                .orElseThrow(() -> new ErrorNegocio("Veterinario con ID " + citaRequestDTO.getIdVeterinario() + " no encontrado"));
+        Areas area = areaRepositry.findById(citaRequestDTO.getIdArea())
+                .orElseThrow(() -> new ErrorNegocio("Area con ID " + citaRequestDTO.getIdArea() + " no encontrado"));
+        if(!veterinario.getAreas().getCodigoArea().equals(citaRequestDTO.getIdArea()))
+            throw new ErrorNegocio("Ese veterinario no pertenece a esa area :(");
         if(citaRequestDTO.getEstadoCita().validarEstadoCrear()){
             throw new ErrorNegocio("Este metodo no es permitido para crear una cita");
         }
 
-        Cita cita = citaMaper.toEntity(citaRequestDTO,mascota,cliente,recepcionista,veterinario,areas);
+        // Crear la cita
+        Cita cita = citaMaper.toEntity(citaRequestDTO, mascota, cliente, recepcionista, veterinario, area);
+        cita = citaRepository.save(cita); // Guardar primero para que tenga ID
+        if (cita.getCitaServicios() == null) {
+            cita.setCitaServicios(new ArrayList<>());
+        }
+        // Si el área es 2, agregar automáticamente el servicio de chequeo
+        if(area.getCodigoArea() == 2L){
+            Servicios chequeoServicio = serviciosRepository.findById(3L)
+                    .orElseThrow(() -> new ErrorNegocio("Servicio 'Chequeo' no encontrado"));
 
-        return citaMaper.toDto(citaRepository.save(cita));
+            CitaServicio citaServicio = new CitaServicio();
+            citaServicio.setCita(cita);
+            citaServicio.setServicios(chequeoServicio);
+            citaServicio.setCantidad(1);
+            citaServicio.setPrecioBase(chequeoServicio.getPrecio());
+            citaServicio.setSubTotal(chequeoServicio.getPrecio() * citaServicio.getCantidad());
 
+            // Asociar a la lista de la cita y guardar
+            cita.getCitaServicios().add(citaServicio);
+            citaServicioRepository.save(citaServicio);
+        }
+
+        // Mapear la cita a DTO incluyendo los servicios
+        return citaMaper.toDto(cita);
     }
 
     @Override

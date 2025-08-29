@@ -10,11 +10,8 @@ import com.clinic_animal.ProyClinicAnimal.domain.model.estados.EstadoPersonal;
 import com.clinic_animal.ProyClinicAnimal.domain.repository.AreaRepositry;
 import com.clinic_animal.ProyClinicAnimal.domain.repository.PersonalRepository;
 import com.clinic_animal.ProyClinicAnimal.domain.repository.RolRepository;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalRequestDto;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateEstadoDto;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateRolesDto;
+import com.clinic_animal.ProyClinicAnimal.web.dto.request.*;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.PersonalResponseDto;
-import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -214,6 +211,20 @@ public class PersonalServiceImpl implements PersonalService {
         personal.setAreas(area);
         personal.setRoles(rolNuevo);
 
+        Personal personalActu = personalRep.save(personal);
+        return personalMap.toDto(personalActu);
+    }
+
+    @Override
+    public PersonalResponseDto finalizarDescanso(PersonalRemoverDescansoDto personalRemoverDescansoDto, Long id) {
+        Personal personal = personalRep.findById(id)
+                .orElseThrow(() -> new ErrorNegocio("No se encontró el trabajador con id: " + id));
+    if(personal.getEstadoPersonal()==EstadoPersonal.DESCANSO) {
+        personal.setEstadoPersonal(EstadoPersonal.DISPONIBLE);
+    }
+    else{
+        throw new ErrorNegocio("Solo puedes remover el descanso de alguien que este descansando");
+    }
         Personal personalActu = personalRep.save(personal);
         return personalMap.toDto(personalActu);
     }

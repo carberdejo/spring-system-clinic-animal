@@ -4,6 +4,7 @@ import com.clinic_animal.ProyClinicAnimal.domain.model.estados.EstadoCita;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,6 +27,6 @@ public class CitaResponseDto {
     private  Long idArea;
     private String nomArea;
     private boolean tieneReceta;
-
+    private List<CitaServicioResponseDto> servicios;
 
 }

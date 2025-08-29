@@ -13,4 +13,5 @@ public class ServiciosRequestDto {
     private Integer duracion;
     private double precio;
     private Long idArea;
+    private boolean activo;
 }

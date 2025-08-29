@@ -36,8 +36,12 @@ public class CitaServicioServiceImpl implements CitaServicioService {
                 new ErrorNegocio("No se encontro del id de cita "+requestDto.getIdCita()));
         Servicios servicios = serviciosRepository.findById(requestDto.getIdServicio())
                 .orElseThrow(()->new ErrorNegocio("No se encontro el did de servicios "+requestDto.getIdServicio()));
+        if (!servicios.getArea().getCodigoArea().equals(cita.getArea().getCodigoArea())) {
+            throw new ErrorNegocio("El servicio seleccionado no corresponde al área de la cita.");
+        }
         CitaServicio citaServicio = citaServicioMapper.toEntity(requestDto,cita,servicios);
-
+        Servicios serv = serviciosRepository.findById(requestDto.getIdServicio())
+                .orElseThrow(() -> new ErrorNegocio("servicio con ID " + requestDto.getIdServicio() + " no encontrado"));
         return citaServicioMapper.toDTO(citaServicioRepository.save(citaServicio));
 
     }
