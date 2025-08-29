@@ -5,8 +5,11 @@ import com.clinic_animal.ProyClinicAnimal.domain.model.estados.EstadoHorario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface HorarioRepository extends JpaRepository<Horario, Long> {
     boolean existsByRolesRolCodigo(Long id);
-    Horario findAllByRolesRolCodigoAndEstadoHorario(Long id, EstadoHorario estadoHorario);
+    Horario findByRolesRolCodigoAndEstadoHorario(Long id, EstadoHorario estadoHorario);
+    List<Horario> findAllByEstadoHorario( EstadoHorario estadoHorario);
+    List<Horario> findAllByRolesRolCodigo( Long id);
 }

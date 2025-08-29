@@ -22,6 +22,11 @@ public class HorarioController {
         return ResponseEntity.ok(horarioService.listar());
     }
 
+    @GetMapping("/rol/{id}")
+    public ResponseEntity<List<HorarioResponseDto>>listaHorarioByRol(@PathVariable Long id){
+        return ResponseEntity.ok(horarioService.listaHorarioByRol(id));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<HorarioResponseDto>buscarById(@PathVariable Long id){
         return ResponseEntity.ok(horarioService.obtenerById(id));
@@ -37,10 +42,6 @@ public class HorarioController {
         return ResponseEntity.ok(horarioService.UpdateHoras(id,updateRequestDto));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void>eliminar(@PathVariable Long id){
-        horarioService.eliminar(id);
-        return ResponseEntity.noContent().build();
-    }
+
 
 }

@@ -41,9 +41,16 @@ public class HorarioServiceImpl implements HorarioService {
 
     @Override
     public List<HorarioResponseDto> listar() {
-        return horarioRepository.findAll().stream()
+        return horarioRepository.findAllByEstadoHorario(EstadoHorario.DISPONIBLE).stream()
                 .map(horarioMapper::toDTO).toList();
     }
+
+    @Override
+    public List<HorarioResponseDto> listaHorarioByRol(Long id) {
+        return horarioRepository.findAllByRolesRolCodigo(id).stream()
+                .map(horarioMapper::toDTO).toList();
+    }
+
 
     @Override
     public HorarioResponseDto obtenerById(Long id) {
@@ -59,7 +66,7 @@ public class HorarioServiceImpl implements HorarioService {
         validarHoras(requestDto.getHoraEntrada(),requestDto.getHoraSalida());
 
         Optional<Horario> horarioAnterior = Optional.ofNullable(horarioRepository.
-                findAllByRolesRolCodigoAndEstadoHorario(requestDto.getIdRol(),EstadoHorario.DISPONIBLE));
+                findByRolesRolCodigoAndEstadoHorario(requestDto.getIdRol(),EstadoHorario.DISPONIBLE));
         horarioAnterior.ifPresent(h-> {
             h.setEstadoHorario(EstadoHorario.DESHABILITADO);
             horarioRepository.save(h);
@@ -86,16 +93,5 @@ public class HorarioServiceImpl implements HorarioService {
         return horarioMapper.toDTO(horarioRepository.save(update));
     }
 
-    @Override
-    public void eliminar(Long id) {
-        Horario delete = horarioRepository.findById(id)
-                .orElseThrow(()->new ErrorNegocio("Horario con ID "+id+" no encontrado"));
 
-        if(delete.getEstadoHorario()==EstadoHorario.DESHABILITADO){
-            throw new ErrorNegocio("El horario ya esta deshabilitado");
-        }
-
-        delete.setEstadoHorario(EstadoHorario.DESHABILITADO);
-        horarioRepository.save(delete);
-    }
 }
