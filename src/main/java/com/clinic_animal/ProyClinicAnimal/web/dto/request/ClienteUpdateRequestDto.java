@@ -3,11 +3,10 @@ package com.clinic_animal.ProyClinicAnimal.web.dto.request;
 import lombok.*;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class MascotaRequestDto {
+public class ClienteUpdateRequestDto {
     private String nombre;
-    private String raza;
-    private String especie;
-    private Integer edad;
-    private String sexo;
-    private Long idCliente;
+    private String apellido;
+    private String telefono;
+    private String direccion;
+    private String email;
 }
