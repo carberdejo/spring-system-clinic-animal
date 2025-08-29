@@ -1,6 +1,7 @@
 package com.clinic_animal.ProyClinicAnimal.web.controller;
 
 import com.clinic_animal.ProyClinicAnimal.aplication.service.AsistenciaService;
+import com.clinic_animal.ProyClinicAnimal.domain.model.estados.EstadoAsistencia;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.AsistenciaRequestDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.AsistenciaSalidaRequestDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.AsistenciaResponseDto;
@@ -19,9 +20,9 @@ public class AsistenciaController {
 
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<AsistenciaResponseDto>>listarById(@PathVariable Long id){
-        return ResponseEntity.ok(asistenciaService.listarById(id));
+    @GetMapping
+    public ResponseEntity<List<AsistenciaResponseDto>>listarById(@RequestParam(required = false) Long id, @RequestParam(required = false) EstadoAsistencia estado){
+        return ResponseEntity.ok(asistenciaService.listar(estado,id));
     }
 
     @PostMapping

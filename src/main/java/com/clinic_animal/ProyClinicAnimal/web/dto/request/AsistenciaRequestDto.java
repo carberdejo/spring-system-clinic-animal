@@ -9,6 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class AsistenciaRequestDto {
-    private EstadoAsistencia estadoAsistencia;
+//    private EstadoAsistencia estadoAsistencia;
     private Long idPersonal;
 }

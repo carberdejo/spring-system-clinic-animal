@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface HorarioService {
     List<HorarioResponseDto>listar();
+    List<HorarioResponseDto>listaHorarioByRol(Long id);
     HorarioResponseDto obtenerById(Long id);
     HorarioResponseDto crear(HorarioRequestDto  requestDto);
     HorarioResponseDto UpdateHoras(Long id,HorarioUpdateRequestDto updateRequestDto);
-    void eliminar(Long id);
 }

@@ -73,10 +73,10 @@ public class RecetaServicioImpl implements RecetaService {
         Receta receta = recetaRepository.findById(id)
                 .orElseThrow(() -> new ErrorNegocio("Receta no encontrada con id: " + id));
 
-        // ✅ Guardamos referencia de la cita original (para no romper la relación única)
+        // Guardamos referencia de la cita original (para no romper la relación única)
         Cita citaOriginal = receta.getCita();
 
-        // ✅ Solo actualizamos campos simples
+        // Solo actualizamos campos simples
         if (recetaUpdateDTO.getIndicaciones() != null) {
             receta.setIndicaciones(recetaUpdateDTO.getIndicaciones());
         }
@@ -87,7 +87,7 @@ public class RecetaServicioImpl implements RecetaService {
             receta.setMedicamentos(recetaUpdateDTO.getMedicamentos());
         }
 
-        // 🔒 Volvemos a poner explícitamente la cita original (por si acaso se pierde en el mapeo)
+        // Volvemos a poner explícitamente la cita original
         receta.setCita(citaOriginal);
 
         Receta recetaUpdate = recetaRepository.save(receta);

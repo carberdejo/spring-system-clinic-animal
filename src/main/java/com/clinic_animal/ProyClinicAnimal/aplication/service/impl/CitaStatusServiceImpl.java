@@ -9,6 +9,7 @@ import com.clinic_animal.ProyClinicAnimal.domain.model.estados.EstadoCita;
 import com.clinic_animal.ProyClinicAnimal.domain.model.estados.EstadoPersonal;
 import com.clinic_animal.ProyClinicAnimal.domain.repository.CitaRepository;
 import com.clinic_animal.ProyClinicAnimal.domain.repository.PersonalRepository;
+import com.clinic_animal.ProyClinicAnimal.web.dto.request.CitaReprogramarDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.CitaUpdateDTO;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.CitaResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +29,9 @@ public class CitaStatusServiceImpl implements CitaStatusService {
 
     private static final Set<String> ROLES_NO_VET = Set.of("admin","recepcionista");
     @Override
-    public CitaResponseDto cambiarEstado(Long id,Long idCita, CitaUpdateDTO citaUpdateDTO) {
-        Personal personal = personalRepository.findById(id).orElseThrow(()->
-                new ErrorNegocio("El ID del personal no se ha encontrado"));
+    public CitaResponseDto cambiarEstado(String email,Long idCita, CitaUpdateDTO citaUpdateDTO) {
+        Personal personal = personalRepository.findByEmail(email).orElseThrow(()->
+                new ErrorNegocio("El email del personal no se ha encontrado"));
 
         String rol = personal.getRoles().getRolNombre().toLowerCase();
         if(!ROLES_NO_VET.contains(rol)){
@@ -49,9 +50,9 @@ public class CitaStatusServiceImpl implements CitaStatusService {
     }
 
     @Override
-    public CitaResponseDto citaEnProgreso(Long id,Long idCita) {
-        Personal personal = personalRepository.findById(id).orElseThrow(()->
-                new ErrorNegocio("El ID del personal no se ha encontrado"));
+    public CitaResponseDto citaEnProgreso(String email,Long idCita) {
+        Personal personal = personalRepository.findByEmail(email).orElseThrow(()->
+                new ErrorNegocio("El email del personal no se ha encontrado"));
 
         String rol = personal.getRoles().getRolNombre().toLowerCase();
         if(ROLES_NO_VET.contains(rol)){
@@ -79,9 +80,9 @@ public class CitaStatusServiceImpl implements CitaStatusService {
     }
 
     @Override
-    public CitaResponseDto citaTerminada(Long id, Long idCita) {
-        Personal personal = personalRepository.findById(id).orElseThrow(()->
-                new ErrorNegocio("El ID del personal no se ha encontrado"));
+    public CitaResponseDto citaTerminada(String email, Long idCita) {
+        Personal personal = personalRepository.findByEmail(email).orElseThrow(()->
+                new ErrorNegocio("El email del personal no se ha encontrado"));
 
         String rol = personal.getRoles().getRolNombre().toLowerCase();
         if(ROLES_NO_VET.contains(rol)){
@@ -106,9 +107,9 @@ public class CitaStatusServiceImpl implements CitaStatusService {
     }
 
     @Override
-    public CitaResponseDto citaReProgramada(Long idCita, Long id,LocalDateTime fecha) {
-        Personal personal = personalRepository.findById(id).orElseThrow(()->
-                new ErrorNegocio("El ID del personal no se ha encontrado"));
+    public CitaResponseDto citaReProgramada(String email,Long idCita, CitaReprogramarDto fecha) {
+        Personal personal = personalRepository.findByEmail(email).orElseThrow(()->
+                new ErrorNegocio("El email del personal no se ha encontrado"));
 
         String rol = personal.getRoles().getRolNombre().toLowerCase();
         if(!ROLES_NO_VET.contains(rol)){
@@ -121,7 +122,7 @@ public class CitaStatusServiceImpl implements CitaStatusService {
             throw new ErrorNegocio("No puedes reprogramar el estado de esta cita");
         }
         cita.setEstado(EstadoCita.PROGRAMADA);
-        cita.setFechaHora(fecha);
+        cita.setFechaHora(fecha.getFecha());
 
         return citaMaper.toDto(citaRepository.save(cita));
     }

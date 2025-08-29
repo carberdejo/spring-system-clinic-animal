@@ -15,7 +15,7 @@ public class AsistenciaMapperImpl implements AsistenciaMapper {
     @Override
     public Asistencia toEntity(AsistenciaRequestDto req, Personal personal) {
         return Asistencia.builder()
-                .estadoAsistencia(req.getEstadoAsistencia())
+
                 .fecha(LocalDate.now())
                 .horaEntrada(LocalTime.now().withNano(0))
                 .horaSalida(LocalTime.of(0,0))
