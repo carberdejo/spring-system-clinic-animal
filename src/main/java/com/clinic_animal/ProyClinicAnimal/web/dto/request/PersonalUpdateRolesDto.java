@@ -7,8 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RolesRequestDto {
-    private String rolNombre;
-    private String descripcion;
-    private boolean accesoWeb;
+public class PersonalUpdateRolesDto {
+    private String contraseña;
+    private Long rolCodigo;
+    private Long codigoArea;
 }

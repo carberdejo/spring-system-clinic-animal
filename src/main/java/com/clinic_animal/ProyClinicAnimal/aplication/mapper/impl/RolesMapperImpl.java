@@ -20,6 +20,7 @@ public class RolesMapperImpl implements RolesMapper {
         return Roles.builder()
                 .rolNombre(dto.getRolNombre())
                 .descripcion(dto.getDescripcion())
+                .accesoWeb(dto.isAccesoWeb())
                 .build();
     }
 
@@ -29,6 +30,7 @@ public class RolesMapperImpl implements RolesMapper {
                 .rolCodigo(Entity.getRolCodigo())
                 .rolNombre(Entity.getRolNombre())
                 .descripcion(Entity.getDescripcion())
+                .accesoWeb(Entity.isAccesoWeb())
                 .build();
     }
 }

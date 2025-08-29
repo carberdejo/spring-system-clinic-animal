@@ -4,6 +4,7 @@ package com.clinic_animal.ProyClinicAnimal.web.controller;
 import com.clinic_animal.ProyClinicAnimal.aplication.service.PersonalService;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalRequestDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateEstadoDto;
+import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateRolesDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.PersonalResponseDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateDto;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +46,9 @@ public class PersonalController {
     @PatchMapping("/CambiarEstado/{id}")
     public ResponseEntity<PersonalResponseDto> actualizarEstadoAreas(@PathVariable("id") Long id,@RequestBody PersonalUpdateEstadoDto updateEstadoDto) {
         return ResponseEntity.status(HttpStatus.OK).body(personalService.actualizarEstado(updateEstadoDto, id));
+    }
+    @PatchMapping("/CambiarRoles/{id}")
+    public ResponseEntity<PersonalResponseDto> actualizarRoles(@PathVariable("id") Long id,@RequestBody PersonalUpdateRolesDto personalUpdateRolesDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(personalService.actualizarRoles(personalUpdateRolesDto, id));
     }
 }

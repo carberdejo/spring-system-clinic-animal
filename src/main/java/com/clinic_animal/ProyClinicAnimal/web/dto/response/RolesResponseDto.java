@@ -10,5 +10,6 @@ import lombok.*;
 public class RolesResponseDto {
     private Long rolCodigo;
     private String rolNombre;
+    private boolean accesoWeb;
     private String descripcion;
 }

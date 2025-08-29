@@ -7,6 +7,7 @@ import com.clinic_animal.ProyClinicAnimal.domain.model.Roles;
 import com.clinic_animal.ProyClinicAnimal.domain.model.estados.EstadoPersonal;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalRequestDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateEstadoDto;
+import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateRolesDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.response.PersonalResponseDto;
 import com.clinic_animal.ProyClinicAnimal.web.dto.request.PersonalUpdateDto;
 import lombok.Builder;
@@ -53,13 +54,8 @@ public class PersonalMapperImpl implements PersonalMapper {
     }
 
     @Override
-    public void PersonalUpdateDto(PersonalUpdateDto dto, Personal entity, Roles roles, Areas areas) {
-        if (dto.getRolCodigo() != null) {
-            entity.setRoles(roles);
-        }
-        if (dto.getCodigoArea() != null) {
-            entity.setAreas(areas);
-        }
+    public void PersonalUpdateDto(PersonalUpdateDto dto, Personal entity) {
+
         if (dto.getEmail() != null) {
             entity.setEmail(dto.getEmail());
         }
@@ -72,6 +68,19 @@ public class PersonalMapperImpl implements PersonalMapper {
     public void PersonalUpdateEstadoDto(PersonalUpdateEstadoDto dto, Personal entity) {
         if (dto.getEstadoPersonal() != null) {
             entity.setEstadoPersonal(dto.getEstadoPersonal());
+        }
+    }
+
+    @Override
+    public void PersonalUpdateRolesDto(PersonalUpdateRolesDto dto, Personal entity, Roles roles, Areas areas) {
+        if (dto.getRolCodigo() != null) {
+            entity.setRoles(roles);
+        }
+        if (dto.getCodigoArea() != null) {
+            entity.setAreas(areas);
+        }
+        if(dto.getContraseña()!= null){
+            entity.setContraseña(dto.getContraseña());
         }
     }
 }

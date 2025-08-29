@@ -3,6 +3,9 @@ package com.clinic_animal.ProyClinicAnimal.domain.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "Mascota")
 @Getter
@@ -16,7 +19,7 @@ public class Mascota {
     @Column(name="id_mascota")
     private Long id;
     @Column(name="nom_mascota")
-    private String nombre;
+    private String nombreMascota;
     @Column(name="raza")
     private String raza;
     @Column(name="especie")
@@ -29,5 +32,8 @@ public class Mascota {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "mascota", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cita> citas = new ArrayList<>();
 
 }
