@@ -35,4 +35,8 @@ public class AsistenciaController {
         return ResponseEntity.ok(asistenciaService.registrarSalida(id));
     }
 
+    @PostMapping("/falta")
+    public ResponseEntity<AsistenciaResponseDto>registrarFalta(@PathVariable Long id){
+        return ResponseEntity.ok(asistenciaService.registrarFalta(id));
+    }
 }
